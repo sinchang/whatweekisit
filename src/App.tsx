@@ -11,6 +11,7 @@ import { useDateFormatter } from 'react-aria'
 import dayjs from 'dayjs'
 import isoWeek from 'dayjs/plugin/isoWeek'
 import dayOfYear from 'dayjs/plugin/dayOfYear'
+import { getISOWeeks } from './utils'
 
 dayjs.extend(isoWeek)
 dayjs.extend(dayOfYear)
@@ -22,22 +23,32 @@ const App: FC = () => {
   const localDate = date.toDate(getLocalTimeZone())
   const lastDayOfYear = dayjs(localDate).endOf('year')
   const totalDaysOfYear = lastDayOfYear.dayOfYear()
-  const totalWeeksOfYear = lastDayOfYear.isoWeek()
+  const totalWeeksOfYear = getISOWeeks(lastDayOfYear.year())
 
   return (
     <div className="mx-auto w-fit">
+      <h2 className="text-3xl font-bold mt-10">What week of the year is it?</h2>
       {date ? (
-        <div>
-          <p>Current date: {formatter.format(localDate)}</p>
-          <p>
-            Week of the year: {dayjs(localDate).isoWeek()} in {totalWeeksOfYear}
+        <div className="bg-slate-100 p-4 rounded-2xl mt-5">
+          <p className="flex justify-between">
+            <span>Current date:</span>
+            <span className="font-bold">{formatter.format(localDate)}</span>
           </p>
-          <p>
-            Day of the year: {dayjs(localDate).dayOfYear()} in {totalDaysOfYear}
+          <p className="flex justify-between">
+            <span>Week of the year:</span>
+            <span className="font-bold">
+              {dayjs(localDate).isoWeek()} in {totalWeeksOfYear}
+            </span>
+          </p>
+          <p className="flex justify-between">
+            <span>Day of the year:</span>
+            <span className="font-bold">
+              {dayjs(localDate).dayOfYear()} in {totalDaysOfYear}
+            </span>
           </p>
         </div>
       ) : null}
-      <Calendar value={date} onChange={setDate} />
+      <Calendar value={date} onChange={setDate} onFocusChange={setDate} />
     </div>
   )
 }

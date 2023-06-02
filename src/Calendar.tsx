@@ -5,6 +5,7 @@ import {
   AriaCalendarProps,
 } from 'react-aria'
 import { useCalendarState } from 'react-stately'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import {
   CalendarDate,
   createCalendar,
@@ -15,6 +16,8 @@ import { useState } from 'react'
 
 import { CalendarGrid } from './CalendarGrid'
 import { Button } from './Button'
+import { YearDropdown } from './YearDropdown'
+import { MonthDropdown } from './MonthDropdown'
 
 export function Calendar(props: AriaCalendarProps<CalendarDate>) {
   let { locale } = useLocale()
@@ -30,12 +33,22 @@ export function Calendar(props: AriaCalendarProps<CalendarDate>) {
   )
 
   return (
-    <div {...calendarProps} className="calendar">
-      <div className="header">
-        <Button {...prevButtonProps}>&lt;</Button>
-        <Button {...nextButtonProps}>&gt;</Button>
+    <div {...calendarProps} className="mt-5">
+      <div className="flex items-center py-4">
+        <Button {...prevButtonProps}>
+          <ChevronLeftIcon className="h-6 w-6" />
+        </Button>
+        <div className="flex flex-1 gap-4 justify-center">
+          <MonthDropdown state={state} />
+          <YearDropdown state={state} />
+        </div>
+        <Button {...nextButtonProps}>
+          <ChevronRightIcon className="h-6 w-6" />
+        </Button>
       </div>
-      <CalendarGrid state={state} />
+      <div className="flex">
+        <CalendarGrid state={state} />
+      </div>
     </div>
   )
 }
