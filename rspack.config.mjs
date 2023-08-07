@@ -51,6 +51,13 @@ const config = {
         template: './index.html',
       },
     ],
+    copy: {
+      patterns: [
+        {
+          from: 'public',
+        },
+      ],
+    },
   },
   module: {
     rules: [
